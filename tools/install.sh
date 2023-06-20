@@ -32,6 +32,13 @@ install_yadm() {
 
 # Main function
 main() {
+  # Parse arguments
+  while [ $# -gt 0 ]; do
+    case $1 in
+      --full) export INSTALL_FULL=yes ;;
+    esac
+  done
+
   install_git
   install_yadm
 
