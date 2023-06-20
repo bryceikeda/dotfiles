@@ -1,44 +1,45 @@
 #!/bin/bash
 set -e
 
+# Check if a command exists
 command_exists() {
   command -v "$@" >/dev/null 2>&1
 }
 
+# Check if the user can use sudo
 user_can_sudo() {
-  command_exists sudo || return 1
-  ! LANG= sudo -n -v 2>&1 | grep -q "may not run sudo"
+  command_exists sudo && sudo -n -v >/dev/null 2>&1
 }
 
+# Install Git using sudo if available
 install_git() {
-  RUN=$(user_can_sudo && echo "sudo" || echo "command")
-  $RUN apt-get update
-  $RUN apt-get install --no-install-recommends -y git
+  local run_command
+  if user_can_sudo; then
+    run_command="sudo apt-get"
+  else
+    run_command="command apt-get"
+  fi
+  $run_command update
+  $run_command install --no-install-recommends -y git
 }
 
+# Install yadm
 install_yadm() {
-  # TODO: Add support for non-root user, else loop is already working
-  mkdir -p $HOME/.local/bin && export PATH=$PATH:$HOME/.local/bin/
-  curl -fLo $HOME/.local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x $HOME/.local/bin/yadm
+  mkdir -p "$HOME/.local/bin" && export PATH=$PATH:"$HOME/.local/bin/"
+  curl -fLo "$HOME/.local/bin/yadm" https://github.com/TheLocehiliosan/yadm/raw/master/yadm
+  chmod a+x "$HOME/.local/bin/yadm"
 }
 
+# Main function
 main() {
-  # Parse arguments
-  while [ $# -gt 0 ]; do
-    case $1 in
-      --full) export INSTALL_FULL=yes ;;
-    esac
-    case $1 in
-      --skip-decrypt) export DECRYPT=no ;;
-    esac
-    shift
-  done
-
   install_git
   install_yadm
 
-  # If cloning fails, this means that yadm is already installed and we shoudl bootstrap
-  yadm clone --bootstrap https://github.com/bryceikeda/dotfiles.git 2>/dev/null || yadm bootstrap
+  # Clone or bootstrap dotfiles
+  if ! yadm clone --bootstrap https://github.com/bryceikeda/dotfiles.git 2>/dev/null; then
+    yadm bootstrap
+  fi
 }
 
+# Call the main function
 main "$@"
