@@ -37,6 +37,7 @@ main() {
     case $1 in
       --full) export INSTALL_FULL=yes ;;
     esac
+    shift
   done
 
   install_git
