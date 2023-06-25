@@ -15,4 +15,3 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 source $HOME/.aliases.zsh
 source $HOME/.functions.zsh
-source $HOME/.zshrc_local

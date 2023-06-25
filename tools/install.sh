@@ -11,6 +11,17 @@ user_can_sudo() {
   command_exists sudo && sudo -n -v >/dev/null 2>&1
 }
 
+# Install fzf using sudo if available
+install_fzf() {
+  local run_command
+  if user_can_sudo; then
+    run_command="sudo apt-get"
+  else
+    run_command="command apt-get"
+  fi
+  $run_command install --no-install-recommends -y fzf
+}
+
 # Install Git using sudo if available
 install_git() {
   local run_command
@@ -22,6 +33,7 @@ install_git() {
   $run_command update
   $run_command install --no-install-recommends -y git
 }
+
 
 # Install yadm
 install_yadm() {
@@ -41,6 +53,7 @@ main() {
   done
 
   install_git
+  install_fzf
   install_yadm
 
   # Clone or bootstrap dotfiles
