@@ -21,6 +21,10 @@ install_pkgs() {
   $RUN apt install --no-install-recommends -y "$@"
 }
 
+install_ssh(){
+  install_pkgs openssh-client openssh-server sshfs
+}
+
 # Install Zsh and related components
 install_zsh() {
   install_pkgs curl zsh
@@ -42,6 +46,7 @@ install_zsh() {
 minimal_installation() {
   echo "Running minimal installation, currently just zsh"
   install_zsh
+  install_ssh
 }
 
 full_installation(){
@@ -69,6 +74,8 @@ main() {
   if [ $INSTALL_FULL = yes ]; then
     full_installation
   fi
+
+
 
 }
 
