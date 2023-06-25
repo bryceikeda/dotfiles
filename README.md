@@ -7,5 +7,5 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/bryceikeda/dotfiles/main/t
 
 ## Full Installation
 ```sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/bryceikeda/dotfiles/main/tools/install.sh)" "" --full
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/bryceikeda/dotfiles/main/tools/install.sh)" --full
 ```
