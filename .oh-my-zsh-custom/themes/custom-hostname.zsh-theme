@@ -13,12 +13,16 @@ zstyle ':vcs_info:*:*' nvcsformats "%~" "" ""
 #
 repo_information() {
   vcs_info # Get version control info before we start outputting stuff
-  echo "%F{blue}${vcs_info_msg_0_%%/.}"
+  echo "%F{94}${vcs_info_msg_0_%%/.}"
 }
 
-PROMPT='$(repo_information)$FX[bold]%F{blue}$(git_prompt_info)%f$FX[no-bold] '
+# Get the current hostname, only valid though SSH connections. Still looks ugly
+# but didn't find a better way
+local hostname="%{$fg_bold[yellow]%}[@%m]"
 
-ZSH_THEME_GIT_PROMPT_PREFIX=" (%F{red}"
+PROMPT='${hostname} $(repo_information)$FX[bold]%F{94}$(git_prompt_info)%f$FX[no-bold] '
+
+ZSH_THEME_GIT_PROMPT_PREFIX=" (%F{91}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%f"
-ZSH_THEME_GIT_PROMPT_DIRTY="%F{blue}) %F{yellow}✗"
-ZSH_THEME_GIT_PROMPT_CLEAN="%F{blue})"
+ZSH_THEME_GIT_PROMPT_DIRTY="%F{94}) %F{yellow}✗"
+ZSH_THEME_GIT_PROMPT_CLEAN="%F{94})"

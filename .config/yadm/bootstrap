@@ -43,6 +43,7 @@ install_zsh() {
   git clone --depth 1 \
     https://github.com/zsh-users/zsh-autosuggestions \
     ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions 2>/dev/null || true
+  cp -r $HOME/.oh-my-zsh-custom/* ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/
 }
 
 # Perform minimal installation (just Zsh)
