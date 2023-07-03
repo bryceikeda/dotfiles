@@ -1,4 +1,4 @@
-ZSH_THEME="simple"
+[[ -n $SSH_CONNECTION ]] && ZSH_THEME="simple-hostname" || ZSH_THEME="simple"
 DISABLE_AUTO_UPDATE="true"
 ENABLE_CORRECTION="false"
 HYPHEN_INSENSITIVE="true"
