@@ -9,7 +9,7 @@ if [ -z "$git_email" ]; then
     exit 1
 fi
 
-ssh-keygen -t ed25519 -C "$git_email"
+ssh-keygen -t ed25519 -C "$git_email "
 
 ssh-add ~/.ssh/id_ed25519
 
