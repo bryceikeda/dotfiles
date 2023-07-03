@@ -16,3 +16,6 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 source $HOME/.aliases.zsh
 source $HOME/.functions.zsh
+if [ -f $HOME/.zshrc_local ]; then
+    source $HOME/.zshrc_local
+fi
