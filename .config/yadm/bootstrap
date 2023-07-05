@@ -21,13 +21,10 @@ install_pkgs() {
   $RUN apt install --no-install-recommends -y "$@"
 }
 
-<<<<<<< HEAD
 install_ssh(){
   install_pkgs openssh-client openssh-server sshfs
 }
 
-=======
->>>>>>> 3c9448dc667bee046c9af36048a1fae47acc548c
 # Install Zsh and related components
 install_zsh() {
   install_pkgs curl zsh
