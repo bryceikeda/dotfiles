@@ -34,10 +34,6 @@ install_git() {
   $run_command install --no-install-recommends -y git
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 3c9448dc667bee046c9af36048a1fae47acc548c
 # Install yadm
 install_yadm() {
   mkdir -p "$HOME/.local/bin" && export PATH=$PATH:"$HOME/.local/bin/"
@@ -56,10 +52,7 @@ main() {
   done
 
   install_git
-<<<<<<< HEAD
   install_fzf
-=======
->>>>>>> 3c9448dc667bee046c9af36048a1fae47acc548c
   install_yadm
 
   # Clone or bootstrap dotfiles
