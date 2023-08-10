@@ -57,9 +57,12 @@ main() {
     shift
   done
 
-  install_git
-  install_fzf
-  install_yadm
+  if user_can_sudo; then
+    sudo apt update
+    install_git
+    install_fzf
+    install_yadm
+  fi
   
   yadm clone --bootstrap -b main https://github.com/bryceikeda/dotfiles.git 2>/dev/null || yadm bootstrap
 }
