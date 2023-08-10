@@ -61,7 +61,7 @@ main() {
   install_fzf
   install_yadm
   
-  yadm clone --bootstrap https://github.com/bryceikeda/dotfiles.git 2>/dev/null || yadm bootstrap
+  yadm clone --bootstrap -b main https://github.com/bryceikeda/dotfiles.git 2>/dev/null || yadm bootstrap
 }
 
 # Call the main function
