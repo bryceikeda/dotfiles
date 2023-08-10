@@ -56,7 +56,7 @@ main() {
   install_yadm
 
   # Clone or bootstrap dotfiles
-  if ! yadm clone --bootstrap https://github.com/bryceikeda/dotfiles.git 2>/dev/null; then
+  if ! yadm clone --bootstrap -b main https://github.com/bryceikeda/dotfiles.git 2>/dev/null; then
     yadm bootstrap
   fi
 }
