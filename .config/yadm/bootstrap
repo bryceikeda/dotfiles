@@ -18,7 +18,9 @@ update_pkgs() {
 
 # Install packages depending on sudo or non-sudo environments
 install_pkgs() {
-  $RUN apt install --no-install-recommends -y "$@"
+  if ! command_exists "$1"; then
+    $RUN apt install --no-install-recommends -y "$1"
+  fi
 }
 
 install_ssh(){
@@ -28,30 +30,34 @@ install_ssh(){
 # Install Zsh and related components
 install_zsh() {
   install_pkgs curl zsh
+  
+  # Install Oh My Zsh if not already installed
+  if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    export CHSH=no
+    export KEEP_ZSHRC=yes
+    export RUNZSH=no
+    ZSH= sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" || true
+    $RUN chsh -s "$(command -v zsh)" "$USER" 2>/dev/null || chsh -s "$(command -v zsh)"
+  fi
 
-  # Install Oh My Zsh
-  export CHSH=no
-  export KEEP_ZSHRC=yes
-  export RUNZSH=no
-  ZSH= sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" || true
-  $RUN chsh -s "$(command -v zsh)" "$USER" 2>/dev/null || chsh -s "$(command -v zsh)"
-
-  # Install zsh-autosuggestions plugin
-  git clone --depth 1 \
-    https://github.com/zsh-users/zsh-autosuggestions \
-    ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions 2>/dev/null || true
-  cp -r $HOME/.oh-my-zsh-custom/* ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/
+  # Install zsh-autosuggestions plugin if not already installed
+  if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
+    git clone --depth 1 \
+      https://github.com/zsh-users/zsh-autosuggestions \
+      ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions 2>/dev/null || true
+  fi
+  cp -r "$HOME/.oh-my-zsh-custom/"* "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/"
 }
 
 # Perform minimal installation (just Zsh)
-minimal_installation() {
-  echo "Running minimal installation, currently just zsh"
+core_installation() {
+  echo "Running core installation, currently just zsh and ssh"
   install_zsh
   install_ssh
 }
 
-full_installation(){
-  echo "[WARNING] Running full installation mode, this may take some time..."
+extras_installation(){
+  echo "[WARNING] Running extra installation mode, this may take some time..."
 
 }
 
@@ -75,9 +81,6 @@ main() {
   if [ $INSTALL_FULL = yes ]; then
     full_installation
   fi
-
-
-
 }
 
 # Call the main function
