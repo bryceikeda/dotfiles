@@ -76,10 +76,10 @@ main() {
   # Fetch apt repositories only once
   update_pkgs
 
-  minimal_installation
+  core_installation
   
   if [ $INSTALL_FULL = yes ]; then
-    full_installation
+    extras_installation
   fi
 }
 
