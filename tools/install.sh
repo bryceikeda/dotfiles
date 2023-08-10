@@ -13,7 +13,6 @@ user_can_sudo() {
 
 # Install fzf using sudo if available
 install_fzf() {
-  if ! command_exists fzf; then
     local run_command
     if user_can_sudo; then
       run_command="sudo apt-get"
@@ -21,7 +20,6 @@ install_fzf() {
       run_command="command apt-get"
     fi
     $run_command install --no-install-recommends -y fzf
-  fi
 }
 
 # Install Git using sudo if available
