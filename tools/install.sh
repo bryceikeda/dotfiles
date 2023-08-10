@@ -13,32 +13,38 @@ user_can_sudo() {
 
 # Install fzf using sudo if available
 install_fzf() {
-  local run_command
-  if user_can_sudo; then
-    run_command="sudo apt-get"
-  else
-    run_command="command apt-get"
+  if ! command_exists fzf; then
+    local run_command
+    if user_can_sudo; then
+      run_command="sudo apt-get"
+    else
+      run_command="command apt-get"
+    fi
+    $run_command install --no-install-recommends -y fzf
   fi
-  $run_command install --no-install-recommends -y fzf
 }
 
 # Install Git using sudo if available
 install_git() {
-  local run_command
-  if user_can_sudo; then
-    run_command="sudo apt-get"
-  else
-    run_command="command apt-get"
+  if ! command_exists git; then
+    local run_command
+    if user_can_sudo; then
+      run_command="sudo apt-get"
+    else
+      run_command="command apt-get"
+    fi
+    $run_command update
+    $run_command install --no-install-recommends -y git
   fi
-  $run_command update
-  $run_command install --no-install-recommends -y git
 }
 
 # Install yadm
 install_yadm() {
-  mkdir -p "$HOME/.local/bin" && export PATH=$PATH:"$HOME/.local/bin/"
-  curl -fLo "$HOME/.local/bin/yadm" https://github.com/TheLocehiliosan/yadm/raw/master/yadm
-  chmod a+x "$HOME/.local/bin/yadm"
+  if ! command_exists yadm; then
+    mkdir -p "$HOME/.local/bin" && export PATH=$PATH:"$HOME/.local/bin/"
+    curl -fLo "$HOME/.local/bin/yadm" https://github.com/TheLocehiliosan/yadm/raw/master/yadm
+    chmod a+x "$HOME/.local/bin/yadm"
+  fi
 }
 
 # Main function
